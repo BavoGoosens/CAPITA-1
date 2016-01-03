@@ -35,7 +35,7 @@ currentPosition(position(X, K), do(A, S)) :-
 
 currentPosition(position(X, Y), do(A, S)) :-
   A \= vmove(_), A \= hmove(_), currentPosition(position(X, Y), S).
-  
+
 destination(position(X, Y), do(A,S)) :- destination(position(X, Y), S), A \= turnoff(position(X, Y)).
 
 % Initial situation
@@ -59,4 +59,4 @@ proc(test, pi(n,?(destination(n)) : goTo(n))).
 
 restoreSitArg(destination(position(X, Y)), S, destination(position(X, Y), S)).
 restoreSitArg(nextDestination(position(X, Y)), S, nextDestination(position(X, Y), S)).
-restoreSitArg(currentPosition(position(X, Y)), S, currentPosition(position(X, Y), S)).
+restoreSitArg(currentPosition(X), S, currentPosition(X, S)).
