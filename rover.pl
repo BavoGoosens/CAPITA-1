@@ -48,13 +48,15 @@ currentPosition(position(X, Y), do(A, S)) :-
 destination(position(X, Y), do(A,S)) :-
   destination(position(X, Y), S), A \= turnoff(position(X, Y)).
 
+notCurrentPosition(N, S) :- \+ currentPosition(N, S).
 
 % Procedures
 
-proc(goTo(position(X, Y)), vmove(1) # hmove(1) # vmove(-1) # hmove(-1)).
+proc(randomMove, vmove(1) # hmove(1) # vmove(-1) # hmove(-1)).
+proc(goTo(N), while(notCurrentPosition(N), randomMove)).
 proc(serve(N), goTo(N)).
 proc(serveADestination, pi(n, ?(nextDestination(n)) : serve(n))).
-proc(control, while(some(n, destination(n)), serveADestination : stop)).
+proc(control, while(some(n, destination(n)), serveADestination)).
 proc(stop).
 
 proc(test, pi(n,?(destination(n)) : goTo(n))).
@@ -64,3 +66,4 @@ proc(test, pi(n,?(destination(n)) : goTo(n))).
 restoreSitArg(destination(P), S, destination(P, S)).
 restoreSitArg(nextDestination(P), S, nextDestination(P, S)).
 restoreSitArg(currentPosition(P), S, currentPosition(P, S)).
+restoreSitArg(notCurrentPosition(P), S, notCurrentPosition(P, S)).
