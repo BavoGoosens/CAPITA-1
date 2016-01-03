@@ -27,9 +27,15 @@ poss(turnoff(position(X, Y)), S) :-
 
 % Successor state axioms for primitive fluents
 
-currentPosition(position(X+Z, Y), do(A, S)) :- A = hmove(Z), currentPosition(position(X, Y), S), print("Horizonal move"), print(Z), print(S).
-currentPosition(position(X, Y+Z), do(A, S)) :- A = vmove(Z), currentPosition(position(X, Y), S), print("Vertical move"), print(Z), print(S).
-currentPosition(position(X, Y), do(A, S)) :- A \= vmove(_), A \= hmove(_), currentPosition(position(X, Y), S), print("No move"), print(S).
+currentPosition(position(K, Y), do(A, S)) :-
+  A = hmove(Z), currentPosition(position(X, Y), S), K is X + Z.
+
+currentPosition(position(X, K), do(A, S)) :-
+  A = vmove(Z), currentPosition(position(X, Y), S), K is Y + Z.
+
+currentPosition(position(X, Y), do(A, S)) :-
+  A \= vmove(_), A \= hmove(_), currentPosition(position(X, Y), S).
+  
 destination(position(X, Y), do(A,S)) :- destination(position(X, Y), S), A \= turnoff(position(X, Y)).
 
 % Initial situation
