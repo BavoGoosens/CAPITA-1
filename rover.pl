@@ -3,10 +3,19 @@
 board_x_max(4).
 board_y_max(4).
 
+currentPosition(position(0, 0), s0).
+destination(position(4, 4), s0).
+
+nextDestination(position(X, Y), S) :- destination(position(X, Y), S).
+
+
 % Primitive control actions
 
+% Move horizontally
 primitive_action(hmove(Z)).
+% Move vertically
 primitive_action(vmove(Z)).
+% turn the rover off at a certain position
 primitive_action(turnoff(position(X, Y))).
 
 % Preconditions for primitive actions
@@ -36,14 +45,9 @@ currentPosition(position(X, K), do(A, S)) :-
 currentPosition(position(X, Y), do(A, S)) :-
   A \= vmove(_), A \= hmove(_), currentPosition(position(X, Y), S).
 
-destination(position(X, Y), do(A,S)) :- destination(position(X, Y), S), A \= turnoff(position(X, Y)).
+destination(position(X, Y), do(A,S)) :-
+  destination(position(X, Y), S), A \= turnoff(position(X, Y)).
 
-% Initial situation
-
-currentPosition(position(0, 0), s0).
-destination(position(4, 4), s0).
-
-nextDestination(position(X, Y), S) :- destination(position(X, Y), S).
 
 % Procedures
 
