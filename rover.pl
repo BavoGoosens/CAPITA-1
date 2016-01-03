@@ -3,7 +3,7 @@
 board_x_max(4).
 board_y_max(4).
 
-currentPosition(position(0, 0), s0).
+currentPosition(position(1, 2), s0).
 destination(position(4, 4), s0).
 
 nextDestination(position(X, Y), S) :- destination(position(X, Y), S).
@@ -48,12 +48,10 @@ currentPosition(position(X, Y), do(A, S)) :-
 destination(position(X, Y), do(A,S)) :-
   destination(position(X, Y), S), A \= turnoff(position(X, Y)).
 
-notCurrentPosition(N, S) :- \+ currentPosition(N, S).
-
 % Procedures
 
 proc(randomMove, vmove(1) # hmove(1) # vmove(-1) # hmove(-1)).
-proc(goTo(N), while(notCurrentPosition(N), randomMove)).
+proc(goTo(N), while(-currentPosition(N), randomMove)).
 proc(serve(N), goTo(N)).
 proc(serveADestination, pi(n, ?(nextDestination(n)) : serve(n))).
 proc(control, while(some(n, destination(n)), serveADestination)).
@@ -66,4 +64,3 @@ proc(test, pi(n,?(destination(n)) : goTo(n))).
 restoreSitArg(destination(P), S, destination(P, S)).
 restoreSitArg(nextDestination(P), S, nextDestination(P, S)).
 restoreSitArg(currentPosition(P), S, currentPosition(P, S)).
-restoreSitArg(notCurrentPosition(P), S, notCurrentPosition(P, S)).
