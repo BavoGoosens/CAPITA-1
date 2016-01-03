@@ -61,6 +61,6 @@ proc(test, pi(n,?(destination(n)) : goTo(n))).
 
 % Restore suppressed situation arguments.
 
-restoreSitArg(destination(position(X, Y)), S, destination(position(X, Y), S)).
-restoreSitArg(nextDestination(position(X, Y)), S, nextDestination(position(X, Y), S)).
-restoreSitArg(currentPosition(X), S, currentPosition(X, S)).
+restoreSitArg(destination(P), S, destination(P, S)).
+restoreSitArg(nextDestination(P), S, nextDestination(P, S)).
+restoreSitArg(currentPosition(P), S, currentPosition(P, S)).
