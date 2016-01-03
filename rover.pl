@@ -1,3 +1,8 @@
+% Initial setup
+
+board_x_max(4).
+board_y_max(4).
+
 % Primitive control actions
 
 primitive_action(hmove(Z)).
@@ -6,9 +11,19 @@ primitive_action(turnoff(position(X, Y))).
 
 % Preconditions for primitive actions
 
-poss(hmove(Z), S) :- currentPosition(position(X, Y), S), K is X + Z, K =< 4, 0 =< K. % hardcode eruit halen
-poss(vmove(Z), S) :- currentPosition(position(X, Y), S), K is Y + Z, K =< 4, 0 =< K. % hardcode eruit halen
-poss(turnoff(position(X, Y)), S) :- currentPosition(position(X, Y), S), destination(position(X, Y), S).
+poss(hmove(Z), S) :-
+  currentPosition(position(X, Y), S),
+  board_x_max(XX),
+  K is X + Z, K =< XX, 0 =< K.
+
+poss(vmove(Z), S) :-
+  currentPosition(position(X, Y), S),
+  board_y_max(YY),
+  K is Y + Z, K =< YY, 0 =< K.
+
+poss(turnoff(position(X, Y)), S) :-
+  currentPosition(position(X, Y), S),
+  destination(position(X, Y), S).
 
 % Successor state axioms for primitive fluents
 
