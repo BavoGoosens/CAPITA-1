@@ -3,7 +3,7 @@
 board_x_max(4).
 board_y_max(4).
 
-currentPosition(position(1, 2), s0).
+currentPosition(position(0, 0), s0).
 destination(position(4, 4), s0).
 
 nextDestination(position(X, Y), S) :- destination(position(X, Y), S).
@@ -50,8 +50,12 @@ destination(position(X, Y), do(A,S)) :-
 
 % Procedures
 
-proc(randomMove, vmove(1) # hmove(1) # vmove(-1) # hmove(-1)).
-proc(goTo(N), while(-currentPosition(N), randomMove)).
+verticalPositionIsHigherThan(position(_,Y), position(_, YY)) :- print(YY), print(Y), YY > Y.
+horizontalPositionIsHigherThan(position(X,_), position(XX, _)) :- print(XX), print(X), XX > X.
+
+%proc(randomMove(N), (if(verticalPositionIsHigherThan(N, currentPosition(M)), vmove(-1), vmove(1)) # if(horizontalPositionIsHigherThan(N, currentPosition(M)), hmove(-1), hmove(1)))).
+proc(randomMove(N), (hmove(1) # vmove(1) # hmove(-1) # vmove(-1))).
+proc(goTo(N), while(-currentPosition(N), randomMove(N))).
 proc(serve(N), goTo(N)).
 proc(serveADestination, pi(n, ?(nextDestination(n)) : serve(n))).
 proc(control, while(some(n, destination(n)), serveADestination)).
