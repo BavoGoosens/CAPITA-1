@@ -51,7 +51,7 @@ destination(position(X, Y), do(A,S)) :-
 
 % Procedures
 
-proc(goTo(N), while(\+ currentPosition(N), vmove(1) # hmove(1) # vmove(-1) # hmove(-1))).
+proc(goTo(position(X, Y)), vmove(X) : hmove(Y)).
 proc(serve(N), goTo(N)).
 proc(serveADestination, pi(n, ?(nextDestination(n)) : serve(n))).
 proc(control, while(some(n, destination(n)), serveADestination : stop)).
