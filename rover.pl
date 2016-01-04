@@ -3,10 +3,14 @@
 board_x_max(4).
 board_y_max(4).
 
-currentPosition(position(0, 0), s0).
-destination(position(4, 4), s0).
+currentPosition(position(4, 4), s0).
+destination(position(0, 0), s0).
 
-pit(position(2,2)).
+%pit(position(1,3)).
+%pit(position(1,2)).
+pit(position(-1,-1)).
+
+
 
 nextDestination(position(X, Y), S) :- destination(position(X, Y), S).
 
@@ -61,9 +65,9 @@ verticalPositionIsEqual(position(_,Y), position(_, YY)) :- Y = YY.
 horizontalPositionIsEqual(position(X,_), position(XX,_)) :- X = XX.
 
 %proc(move(N), (if(verticalPositionIsHigherThan(N, currentPosition(M)), vmove(-1), vmove(1)) # if(horizontalPositionIsHigherThan(N, currentPosition(M)), hmove(-1), hmove(1)))).
-%proc(move(N), (hmove(1) # vmove(1) # hmove(-1) # vmove(-1))).
+proc(move(N), (hmove(1) # vmove(1) # hmove(-1) # vmove(-1))).
 % proc(move(N), pi(n, ?(currentPosition(n)) : (if(verticalPositionIsHigherThan(N, n), (vmove(-1) # vmove(1) # hmove(1) # hmove(-1)), if(verticalPositionIsEqual(N,n), if(horizontalPositionIsHigherThan(N, n), (hmove(-1) # hmove(1) # vmove(-1) # vmove(1)), (hmove(1) # hmove(-1) # vmove(1) # vmove(-1))), (vmove(1) # vmove(-1) # hmove(1) # hmove(-1))))))).
-proc(move(N), pi(n, ?(currentPosition(n)) : (if(verticalPositionIsEqual(N,n), if(horizontalPositionIsHigherThan(N, n), ludr, rudl), if(horizontalPositionIsEqual(N, n), if(verticalPositionIsHigherThan(N, n), dlru, ulrd), if(verticalPositionIsHigherThan(N, n), if(horizontalPositionIsHigherThan(N, n), dlru, drlu), if(horizontalPositionIsHigherThan(N, n), ulrd, urld))))))
+%proc(move(N), pi(n, ?(currentPosition(n)) : (if(verticalPositionIsEqual(N,n), if(horizontalPositionIsHigherThan(N, n), ludr, rudl), if(horizontalPositionIsEqual(N, n), if(verticalPositionIsHigherThan(N, n), dlru, ulrd), if(verticalPositionIsHigherThan(N, n), if(horizontalPositionIsHigherThan(N, n), dlru, drlu), if(horizontalPositionIsHigherThan(N, n), ulrd, urld))))))).
 proc(ludr, hmove(-1) # vmove(1) # vmove(-1) # hmove(1)).
 proc(rudl, hmove(1) # vmove(1) # vmove(-1) # hmove(-1)).
 proc(dlru, vmove(-1) # hmove(-1) # hmove(1) # vmove(1)).
@@ -71,7 +75,7 @@ proc(ulrd, vmove(1) # hmove(-1) # hmove(1) # vmove(-1)).
 proc(drlu, vmove(-1) # hmove(1) # hmove(-1) # vmove(1)).
 proc(urld, vmove(1) # hmove(1) # hmove(-1) # vmove(-1)).
 proc(goTo(N), while(-currentPosition(N), move(N))).
-proc(serve(N), goTo(N)).
+proc(serve(N), goTo(N) : turnoff(N)).
 proc(serveADestination, pi(n, ?(nextDestination(n)) : serve(n))).
 proc(control, while(some(n, destination(n)), serveADestination)).
 proc(stop).
