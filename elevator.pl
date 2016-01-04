@@ -11,7 +11,7 @@ primitive_action(down(N)).     % Move elevator down to floor N.
 
 % Definitions of Complex Control Actions
 
-proc(goFloor(N), ?(currentFloor(N)) # up(N) # down(N)).
+proc(goFloor(N), ?(currentFl oor(N)) # up(N) # down(N)).
 % een floor N serven is een sequentie van acties: ga naar de floor, zet lampie uit open en sluit de deur.
 proc(serve(N), goFloor(N) : turnoff(N) : open : close).
 % deze methode gaat een niet deterministische keuze maken welke floor als volgende wordt bediend.
