@@ -62,9 +62,14 @@ horizontalPositionIsEqual(position(X,_), position(XX,_)) :- X = XX.
 
 %proc(move(N), (if(verticalPositionIsHigherThan(N, currentPosition(M)), vmove(-1), vmove(1)) # if(horizontalPositionIsHigherThan(N, currentPosition(M)), hmove(-1), hmove(1)))).
 %proc(move(N), (hmove(1) # vmove(1) # hmove(-1) # vmove(-1))).
+% proc(move(N), pi(n, ?(currentPosition(n)) : (if(verticalPositionIsHigherThan(N, n), (vmove(-1) # vmove(1) # hmove(1) # hmove(-1)), if(verticalPositionIsEqual(N,n), if(horizontalPositionIsHigherThan(N, n), (hmove(-1) # hmove(1) # vmove(-1) # vmove(1)), (hmove(1) # hmove(-1) # vmove(1) # vmove(-1))), (vmove(1) # vmove(-1) # hmove(1) # hmove(-1))))))).
 
-proc(move(N), pi(n, ?(currentPosition(n)) : (if(verticalPositionIsHigherThan(N, n), (vmove(-1) # vmove(1) # hmove(1) # hmove(-1)), if(verticalPositionIsEqual(N,n), if(horizontalPositionIsHigherThan(N, n), (hmove(-1) # hmove(1) # vmove(-1) # vmove(1)), (hmove(1) # hmove(-1) # vmove(1) # vmove(-1))), (vmove(1) # vmove(-1) # hmove(1) # hmove(-1))))))).
-
+proc(ludr, hmove(-1) # vmove(1) # vmove(-1) # hmove(1)).
+proc(rudl, hmove(1) # vmove(1) # vmove(-1) # hmove(-1)).
+proc(dlru, vmove(-1) # hmove(-1) # hmove(1) # vmove(1)).
+proc(ulrd, vmove(1) # hmove(-1) # hmove(1) # vmove(-1)).
+proc(drlu, vmove(-1) # hmove(1) # hmove(-1) # vmove(1)).
+proc(urld, vmove(1) # hmove(1) # hmove(-1) # vmove(-1)).
 proc(goTo(N), while(-currentPosition(N), move(N))).
 proc(serve(N), goTo(N)).
 proc(serveADestination, pi(n, ?(nextDestination(n)) : serve(n))).
