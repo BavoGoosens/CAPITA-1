@@ -3,12 +3,13 @@
 board_x_max(4).
 board_y_max(4).
 
-currentPosition(position(4, 4), s0).
-destination(position(0, 0), s0).
+currentPosition(position(2, 2), s0).
+destination(position(0, 3), s0).
 
-%pit(position(1,3)).
-%pit(position(1,2)).
-pit(position(-1,-1)).
+pit(position(1,3)).
+pit(position(1,2)).
+pit(position(1,1)).
+%pit(position(-1,-1)).
 
 
 
@@ -29,12 +30,14 @@ primitive_action(turnoff(position(X, Y))).
 poss(hmove(Z), S) :-
   currentPosition(position(X, Y), S),
   board_x_max(XX),
-  K is X + Z, K =< XX, 0 =< K.
+  K is X + Z, K =< XX, 0 =< K,
+  \+ pit(position(K, Y)), \+ visitedPosition(position(K, Y), S).
 
 poss(vmove(Z), S) :-
   currentPosition(position(X, Y), S),
   board_y_max(YY),
-  K is Y + Z, K =< YY, 0 =< K.
+  K is Y + Z, K =< YY, 0 =< K,
+  \+ pit(position(X, K)), \+ visitedPosition(position(X, K), S).
 
 poss(turnoff(position(X, Y)), S) :-
   currentPosition(position(X, Y), S),
@@ -43,12 +46,10 @@ poss(turnoff(position(X, Y)), S) :-
 % Successor state axioms for primitive fluents
 
 currentPosition(position(K, Y), do(A, S)) :-
-  A = hmove(Z), currentPosition(position(X, Y), S), K is X + Z,
-  \+ pit(position(K, Y)), \+ visitedPosition(position(K, Y), S).
+  A = hmove(Z), currentPosition(position(X, Y), S), K is X + Z.
 
 currentPosition(position(X, K), do(A, S)) :-
-  A = vmove(Z), currentPosition(position(X, Y), S), K is Y + Z,
-  \+ pit(position(X, K)), \+ visitedPosition(position(X, K), S).
+  A = vmove(Z), currentPosition(position(X, Y), S), K is Y + Z.
 
 currentPosition(position(X, Y), do(A, S)) :-
   A \= vmove(_), A \= hmove(_), currentPosition(position(X, Y), S).
@@ -56,7 +57,7 @@ currentPosition(position(X, Y), do(A, S)) :-
 visitedPosition(position(X, Y), do(A, S)) :-
   visitedPosition(position(X, Y), S).
 
-visitedPosition(position(X,Y), do(_, S)) :-
+visitedPosition(position(X,Y), S) :-
   currentPosition(position(X,Y), S).
 
 destination(position(X, Y), do(A,S)) :-
