@@ -52,7 +52,10 @@ destination(position(X, Y), do(A,S)) :-
 
 % Procedures
 
+% the first argument denotes the destination and the second the current position
+% current vertical position is higher than destination
 verticalPositionIsHigherThan(position(_,Y), position(_, YY)) :- YY > Y.
+% current horizontal position is higher than destination
 horizontalPositionIsHigherThan(position(X,_), position(XX, _)) :- XX > X.
 verticalPositionIsEqual(position(_,Y), position(_, YY)) :- Y = YY.
 horizontalPositionIsEqual(position(X,_), position(XX,_)) :- X = XX.
