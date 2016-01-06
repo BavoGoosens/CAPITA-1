@@ -23,12 +23,13 @@ causes(putOnTable, block, onTable, true).
 % causes(putOnTable,tree,down,true).
 % causes(putOnTable,tree,up,true).
 
-% looking determines whether the tree is up or down
+% looking determines whether the floor is empty or not
 settles(look,X,floor,X,true).
-% if the tree is seen to be up, chops_max cannot be 0
+% if the tree is seen to be nonEmpty, floormax cannot be 0
 settles(look,empty,floorMax,0,true).
 rejects(look,nonEmpty,floorMax,0,true).
 
+% checkBlock determines whether a block is clear, notClear or onTable.
 settles(checkBlock,X, block, X, true).
 
 init(block,clear).      % the axe is out and available
