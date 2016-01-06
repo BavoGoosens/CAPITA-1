@@ -40,7 +40,7 @@ rejects(senseFloor, notEmpty, blocksOnFloorCount, 0, true).
 init(floor, notEmpty).
 
 parm_fluent(blocksOnFloorCount).           % chops_max is the unique parameter
-init_parm(generate,blocksOnFloorCount,1).  % small bound for generating is 1
-init_parm(test,blocksOnFloorCount,100).    % large bound for testing is 100
+init_parm(generate,blocksOnFloorCount,3).  % small bound for generating is 1
+init_parm(test,blocksOnFloorCount,10).    % large bound for testing is 100
 
 top :- kplan(floor=empty).
