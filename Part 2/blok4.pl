@@ -39,4 +39,4 @@ parm_fluent(blocksOnFloor).           % blocksOnFloor is the unique parameter
 init_parm(generate,blocksOnFloor,1).  % small bound for generating is 1
 init_parm(test,blocksOnFloor,100).    % large bound for testing is 100
 
-top :- kplan(and(floor=empty,axe=stored)).
+top :- kplan(floor=empty).
