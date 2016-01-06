@@ -3,7 +3,7 @@
 
 prim_action(putOnTable,[ok]).		% put the block on the table
 prim_action(look,[empty,nonEmpty]).	% look if the table is empty or non-empty
-prim_action(checkBlock,[clear, notClear]).	% check if the block is clear
+prim_action(checkBlock,[clear, notClear, onTable]).	% check if the block is clear
 
 prim_fluent(block).         % clear of not clear
 prim_fluent(floor).	        % empty or non-empty
