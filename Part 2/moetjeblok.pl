@@ -5,7 +5,7 @@ prim_action(putOnTable(_),[ok]).		% put the block on the table
 prim_action(look,[empty,nonEmpty]).	% look if the table is empty or non-empty
 prim_action(checkBlock(_),[clear, notClear, onTable]).	% check if the block is clear
 
-prim_fluent(block(_)).       % clear of not clear
+prim_fluent(block(X)).       % clear of not clear
 prim_fluent(floor).	        % empty or non-empty
 prim_fluent(floorMax).	    % unknown bound on the number of blocks on the floor
 
@@ -40,4 +40,4 @@ parm_fluent(floorMax).           % chops_max is the unique parameter
 init_parm(generate,chops_max,1).  % small bound for generating is 1
 init_parm(test,chops_max,100).    % large bound for testing is 100
 
-top :- kplan(and(floor=empty, block(X)=onTable)).
+top :- kplan(and(floor=empty, all(x, block(x), checkBlock(x) = onTable))).
