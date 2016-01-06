@@ -15,6 +15,11 @@ poss(chop,and(axe=out,tree=up)).
 poss(look,true).
 poss(store,axe=out).
 
+% causes(A,R,F,V,W), is used to state that action A changes the value of F.
+%    Specifically, if A returns result R, then the possible values for F are
+%    any value V for which W is true.
+%          e.g. causes(walk_to(X),_,mylocation,X,true).
+%               causes(apply_heat,_,temperature,X,X is temperature+1).
 causes(store,axe,stored,true).
 causes(chop,chops_max,X,X is chops_max-1).
 causes(chop,tree,down,true).
