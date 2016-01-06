@@ -18,7 +18,8 @@ poss(checkBlock,true).
 %    any value V for which W is true.
 %          e.g. causes(walk_to(X),_,mylocation,X,true).
 %               causes(apply_heat,_,temperature,X,X is temperature+1).
-causes(putOnTable,floorMax,X,X is floorMax-1).
+causes(putOnTable, floorMax,X,X is floorMax-1).
+causes(putOnTable, block, onTable, true).
 % causes(putOnTable,tree,down,true).
 % causes(putOnTable,tree,up,true).
 
@@ -38,4 +39,4 @@ parm_fluent(floorMax).           % chops_max is the unique parameter
 init_parm(generate,chops_max,3).  % small bound for generating is 1
 init_parm(test,chops_max,100).    % large bound for testing is 100
 
-top :- kplan(floor=empty).
+top :- kplan(floor=empty, block=onTable).
