@@ -18,4 +18,15 @@ prim_action(senseLocation, [onFloor, onTable]).
 prim_action(putOnTable, [ok]).
 
 
-prim_fluent(block) %clear, notClear, onFloor, onTable
+prim_fluent(block). %clear, notClear, onFloor, onTable
+prim_fluent(blockCount).
+
+poss(putOnTable, and(block=clear, block=onFloor)).
+poss(senseClear, true).
+poss(senseLocation, true).
+
+causes(putOnTable, block, onTable, true).
+causes(putOnTable, blockCount, X, X is blockCount-1).
+
+settles(senseClear, X, block, X, true).
+settles(senseLocation, X, block X, true).
