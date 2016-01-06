@@ -1,0 +1,39 @@
+This is an implementation in Eclipse Prolog of a planner that generates loops.
+See "Planning with Loops" in IJCAI-05 by Hector Levesque for background.
+
+This package contains the following files:
+
+   - README: this file
+   - TUTORIAL: how to write action theories
+   - HINTS: how to get the planner working
+   - kplanner.pl: Prolog code for the planner (loaded by each example)
+   - ktrue.pl: Prolog code for the formula evaluator (loaded by kplanner)
+   - *.pl: example action theories
+
+A number of examples are included here. All these examples can be run the same way.  For example, to do treechop, run
+Eclipse and then type "[treechop]."  This loads treechop.pl (the example),
+which loads kplanner.pl (the planner), which loads ktrue.pl (the evaluator).
+Then type "top."  This calls the top-level predicate kplan/1 with a suitable
+goal.  For treechop, this is defined as "kplan(and(tree=down,axe=stored))".
+The output it produces is:
+
+     The goal:  and(tree = down, axe = stored)
+     
+      0 1 2 3 4x
+     
+     A plan is found after 0.15 seconds.
+     -------------------------------------------
+     LOOP
+       CASE look OF
+          -down: EXIT
+          -up:
+              chop ;
+              NEXT
+       ENDC
+     ENDL ;
+     store
+ 
+To generate your own examples, you will need to produce a file like
+treechop.pl. Read the TUTORIAL and HINTS for help.
+
+Happy looping!
