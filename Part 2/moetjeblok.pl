@@ -34,7 +34,9 @@ causes(putOnTable(block(X)), block(X), block(X) = onTable, true).
 causes(putOnTable(block(X)), blockCount, X, X is blockCount-1).
 causes(putOnTable(block(X)), floor, allBlocksOnTable, true).
 causes(putOnTable(block(X)), floor, someBlocksOnFloor, true).
-causes(doNothing(block(X)), block(X), block(X) = onFloor, true).
+causes(doNothing(block(X)), block(X), block(X) = onTable, true).
+causes(doNothing(block(X)), blockCount, X, X is blockCount-1).
+
 
 settles(senseClear(X), Y, block(X), Y, true).
 settles(senseLocation(X), Y, block(X), Y, true).
@@ -48,4 +50,4 @@ parm_fluent(blockCount).           % chops_max is the unique parameter
 init_parm(generate,blockCount,1).  % small bound for generating is 1
 init_parm(test,blockCount,100).    % large bound for testing is 100
 
-top :- kplan(and(all(X,block(X), onTable),floor=empty)).
+top :- kplan(and(block(X),floor=empty)).
