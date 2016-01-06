@@ -1,53 +1,41 @@
-%%  Puts some blocks on the table
-% The robot has some basic knowledge (e.g. how many blocks) but not much beyond
-% that. But it can sense things like whether a block is clear, whether a block
-% is on the floor, and whether a block is on the table. The end goal is to get
-% all the blocks on the table.
-%
-% for the full kb prolog program see slides and/or
-% http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=350CC0AE649D0A16A3902B6BA73ADCF9?doi=10.1.1.16.8014&rep=rep1&type=pdf
 
+:-include(kplanner).
 
-:- include(kplanner).
+prim_action(putOnTable,[ok]).		% put the block on the table
+prim_action(look,[empty,nonEmpty]).	% look if the table is empty or non-empty
+prim_action(checkBlock,[clear, notClear]).	% check if the block is clear
 
-% sensing actions
-prim_action(senseClear(block(X)), [clear, notClear]).
-prim_action(senseLocation(block(X)), [onFloor, onTable]).
-prim_action(senseFloor, [empty, notEmpty]).
+prim_fluent(block).         % clear of not clear
+prim_fluent(floor).	        % empty or non-empty
+prim_fluent(floorMax).	    % unknown bound on the number of blocks on the floor
 
-% put block on the table
-prim_action(putOnTable(block(X)), [ok]).
-prim_action(doNothing(block(X)), [ok]).
+poss(putOnTable,block=clear).
+poss(look,true).
+poss(checkBlock,true).
 
+% causes(A,R,F,V,W), is used to state that action A changes the value of F.
+%    Specifically, if A returns result R, then the possible values for F are
+%    any value V for which W is true.
+%          e.g. causes(walk_to(X),_,mylocation,X,true).
+%               causes(apply_heat,_,temperature,X,X is temperature+1).
+causes(putOnTable,floorMax,X,X is floorMax-1).
+% causes(putOnTable,tree,down,true).
+% causes(putOnTable,tree,up,true).
 
-prim_fluent(block(X)). %clear, notClear, onFloor, onTable
-prim_fluent(floor). % empty, notEmpty
-prim_fluent(blockCount).
+% looking determines whether the tree is up or down
+settles(look,X,floor,X,true).
+% if the tree is seen to be up, chops_max cannot be 0
+settles(look,empty,floorMax,0,true).
+rejects(look,nonEmpty,floorMax,0,true).
 
-poss(putOnTable(block(X)), and(block(X)=clear, block(X)=onFloor)).
-poss(doNothing(block(X)), block(X)=onTable).
-poss(senseClear(_), true).
-poss(senseLocation(_), true).
-poss(senseFloor(_),true).
+settles(checkBlock,X, block, X, true).
 
-causes(putOnTable(block(X)), block(X), block(X) = onTable, true).
-causes(putOnTable(block(X)), blockCount, X, X is blockCount-1).
-causes(putOnTable(block(X)), floor, allBlocksOnTable, true).
-causes(putOnTable(block(X)), floor, someBlocksOnFloor, true).
-causes(doNothing(block(X)), block(X), block(X) = onTable, true).
-causes(doNothing(block(X)), blockCount, X, X is blockCount-1).
+init(block,clear).      % the axe is out and available
+init(floor,nonEmpty).      % the tree may be up initially
+init(floor,empty).    % the tree may be down  initially
 
+parm_fluent(floorMax).           % chops_max is the unique parameter
+init_parm(generate,chops_max,1).  % small bound for generating is 1
+init_parm(test,chops_max,100).    % large bound for testing is 100
 
-settles(senseClear(X), Y, block(X), Y, true).
-settles(senseLocation(X), Y, block(X), Y, true).
-settles(senseFloor, allBlocksOnTable, blockCount, 0, true).
-rejects(senseFloor, someBlocksOnFloor, blockCount, 0, true).
-
-init(block(X),onFloor).      % the tree may be up initially
-init(floor, someBlocksOnFloor).
-
-parm_fluent(blockCount).           % chops_max is the unique parameter
-init_parm(generate,blockCount,1).  % small bound for generating is 1
-init_parm(test,blockCount,100).    % large bound for testing is 100
-
-top :- kplan(and(block(X),floor=empty)).
+top :- kplan(and(floor=empty)).
