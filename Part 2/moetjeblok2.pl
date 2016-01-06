@@ -13,8 +13,9 @@ poss(putClearBlockOnTable,table=clearBlocksOnFloor).
 poss(look,true).
 
 causes(putClearBlockOnTable,blocksCount,X,X is blocksCount-1).
-causes(putClearBlockOnTable,table,clearBlocksOnFloor,true).
 causes(putClearBlockOnTable,table,allBlocksOnTable,true).
+causes(putClearBlockOnTable,table,clearBlocksOnFloor,true).
+
 
 % looking determines whether the tree is up or down
 settles(look,X,table,X,true).
