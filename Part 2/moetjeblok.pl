@@ -28,6 +28,7 @@ poss(putOnTable(block(X)), and(block(X)=clear, block(X)=onFloor)).
 poss(doNothing(block(X)), block(X)=onTable).
 poss(senseClear(_), true).
 poss(senseLocation(_), true).
+poss(senseFloor(_),true).
 
 causes(putOnTable(block(X)), block(X), block(X) = onTable, true).
 causes(putOnTable(block(X)), blockCount, X, X is blockCount-1).
