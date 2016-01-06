@@ -38,4 +38,4 @@ parm_fluent(floorMax).           % chops_max is the unique parameter
 init_parm(generate,chops_max,1).  % small bound for generating is 1
 init_parm(test,chops_max,100).    % large bound for testing is 100
 
-top :- kplan(and(floor=empty)).
+top :- kplan(floor=empty).
