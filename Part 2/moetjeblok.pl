@@ -14,3 +14,9 @@
 prim_action(clear, [clear, notclear]).
 prim_action(onfloor, [onthefloor, notonthefloor]).
 prim_action(ontable, [onthetable, notonthetable]).
+
+% put block on the table
+prim_action(putOnTable, [ok]).
+
+
+prim_fluent(block) %clear, notclear, onthefloor, notonthefloor, onthetable, notonthetable
