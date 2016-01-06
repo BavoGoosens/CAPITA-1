@@ -11,12 +11,11 @@
 :- include(kplanner).
 
 % sensing actions
-prim_action(clear, [clear, notclear]).
-prim_action(onfloor, [onthefloor, notonthefloor]).
-prim_action(ontable, [onthetable, notonthetable]).
+prim_action(senseClear, [clear, notClear]).
+prim_action(senseLocation, [onFloor, onTable]).
 
 % put block on the table
 prim_action(putOnTable, [ok]).
 
 
-prim_fluent(block) %clear, notclear, onthefloor, notonthefloor, onthetable, notonthetable
+prim_fluent(block) %clear, notClear, onFloor, onTable
