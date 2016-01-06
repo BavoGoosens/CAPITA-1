@@ -5,22 +5,22 @@
 
 prim_action(pickupBlock,[ok]).		% hit the floor with the axe
 prim_action(look,[empty,notEmpty]).	% look if the floor is notEmpty or empty
-prim_action(store,[ok]).	% put away the axe
+%prim_action(store,[ok]).	% put away the axe
 
-prim_fluent(axe).               % stored or out
+%prim_fluent(axe).               % stored or out
 prim_fluent(floor).	        % notEmpty or empty
 prim_fluent(blocksOnFloor).	        % unknown bound on the number of chops
 
-poss(pickupBlock,and(axe=out,floor=notEmpty)).
+poss(pickupBlock,floor=notEmpty).
 poss(look,true).
-poss(store,axe=out).
+%poss(store,axe=out).
 
 % causes(A,R,F,V,W), is used to state that action A changes the value of F.
 %    Specifically, if A returns result R, then the possible values for F are
 %    any value V for which W is true.
 %          e.g. causes(walk_to(X),_,mylocation,X,true).
 %               causes(apply_heat,_,temperature,X,X is temperature+1).
-causes(store,axe,stored,true).
+%causes(store,axe,stored,true).
 causes(pickupBlock,blocksOnFloor,X,X is blocksOnFloor-1).
 causes(pickupBlock,floor,empty,true).
 causes(pickupBlock,floor,notEmpty,true).
@@ -31,7 +31,7 @@ settles(look,X,floor,X,true).
 settles(look,empty,blocksOnFloor,0,true).
 rejects(look,notEmpty,blocksOnFloor,0,true).
 
-init(axe,out).      % the axe is out and available
+%init(axe,out).      % the axe is out and available
 init(floor,notEmpty).      % the floor may be notEmpty initially
 init(floor,empty).    % the floor may be empty  initially
 
