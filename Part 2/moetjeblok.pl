@@ -17,6 +17,7 @@ prim_action(senseFloor, [empty, notEmpty]).
 
 % put block on the table
 prim_action(putOnTable(block(X)), [ok]).
+prim_action(doNothing(block(X)), [ok]).
 
 
 prim_fluent(block(X)). %clear, notClear, onFloor, onTable
@@ -24,6 +25,7 @@ prim_fluent(floor). % empty, notEmpty
 prim_fluent(blockCount).
 
 poss(putOnTable(block(X)), and(block(X)=clear, block(X)=onFloor)).
+poss(doNothing(block(X)), block(X)=onTable).
 poss(senseClear(_), true).
 poss(senseLocation(_), true).
 
@@ -31,6 +33,7 @@ causes(putOnTable(block(X)), block(X), block(X) = onTable, true).
 causes(putOnTable(block(X)), blockCount, X, X is blockCount-1).
 causes(putOnTable(block(X)), floor, allBlocksOnTable, true).
 causes(putOnTable(block(X)), floor, someBlocksOnFloor, true).
+causes(doNothing(block(X)), block(X), block(X) = onFloor, true).
 
 settles(senseClear(X), Y, block(X), Y, true).
 settles(senseLocation(X), Y, block(X), Y, true).
