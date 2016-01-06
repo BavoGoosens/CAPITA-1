@@ -13,14 +13,14 @@
 % sensing actions
 prim_action(senseClear(block(X)), [clear, notClear]).
 prim_action(senseLocation(block(X)), [onFloor, onTable]).
-prim_action(senseFloor, [allBlocksOnTable, someBlocksOnFloor]).
+prim_action(senseFloor, [empty, notEmpty]).
 
 % put block on the table
 prim_action(putOnTable(block(X)), [ok]).
 
 
 prim_fluent(block(X)). %clear, notClear, onFloor, onTable
-prim_fluent(floor). % allBlockOnTable, someBlockOnFloor
+prim_fluent(floor). % empty, notEmpty
 prim_fluent(blockCount).
 
 poss(putOnTable(block(X)), and(block(X)=clear, block(X)=onFloor)).
@@ -37,11 +37,11 @@ settles(senseLocation(X), Y, block(X), Y, true).
 settles(senseFloor, allBlocksOnTable, blockCount, 0, true).
 rejects(senseFloor, someBlocksOnFloor, blockCount, 0, true).
 
-init(block(1),onFloor).      % the tree may be up initially
+init(block(X),onFloor).      % the tree may be up initially
 init(floor, someBlocksOnFloor).
 
 parm_fluent(blockCount).           % chops_max is the unique parameter
 init_parm(generate,blockCount,1).  % small bound for generating is 1
 init_parm(test,blockCount,100).    % large bound for testing is 100
 
-top :- kplan(and(all(X,block(X), onTable),floor=allBlocksOnTable)).
+top :- kplan(and(all(X,block(X), onTable),floor=empty)).
