@@ -22,12 +22,12 @@ prim_fluent(layers_of_sand).	        % unknown bound on the number of chops
 prim_fluent(layers_of_ice).
 
 poss(break_sand,and(mineral=out,sand_layer=sand)).
-poss(break_ice, and(ice_layer=ice, and(mineral=out,sand_layer=no_sand))).
+poss(break_ice, and(mineral=out, and(sand_layer=no_sand, ice_layer=ice))).
 % eventueel testen of true => no_sand ?
-poss(look_ice, true).
-poss(look_sand,true).
+poss(look_ice, and(mineral=out,sand_layer=no_sand)).
+poss(look_sand,mineral=out).
 % miss hier straks meer bij zetten
-poss(store,mineral=out).
+poss(store,and(mineral=out, and(ice_layer=no_ice, sand_layer=no_sand))).
 
 % causes(A,R,F,V,W), is used to state that action A changes the value of F.
 %    Specifically, if A returns result R, then the possible values for F are
@@ -58,12 +58,12 @@ init(sand_layer,no_sand).    % the tree may be down  initially
 init(ice_layer, ice).
 init(ice_layer, no_ice).
 
-parm_fluent(layers_of_sand).           % layers_of_sand is the unique parameter
-init_parm(generate,layers_of_sand,1).  % small bound for generating is 1
-init_parm(test,layers_of_sand,100).    % large bound for testing is 100
-
 parm_fluent(layers_of_ice).
 init_parm(generate, layers_of_ice, 1).
 init_parm(test, layers_of_ice, 100).
 
-top :- kplan(and(ice_layer=no_ice, and(sand_layer=no_sand,mineral=stored))).
+parm_fluent(layers_of_sand).           % layers_of_sand is the unique parameter
+init_parm(generate,layers_of_sand,1).  % small bound for generating is 1
+init_parm(test,layers_of_sand,100).    % large bound for testing is 100
+
+top :- kplan(and(mineral=stored, and(ice_layer=no_ice, sand_layer=no_sand))).
