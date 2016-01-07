@@ -50,13 +50,13 @@ rejects(look_sand,sand,layers_of_sand,0,true).
 
 settles(look_ice,X,ice_layer,X,true).
 settles(look_ice,no_ice,layers_of_ice,0,true).
-settles(look_ice,ice,layers_of_ice,0,true).
+rejects(look_ice,ice,layers_of_ice,0,true).
 
 init(mineral,out).      % the axe is out and available
-init(sand_layer,sand).      % the tree may be up initially
-init(sand_layer,no_sand).    % the tree may be down  initially
 init(ice_layer, ice).
 init(ice_layer, no_ice).
+init(sand_layer,sand).      % the tree may be up initially
+init(sand_layer,no_sand).    % the tree may be down  initially
 
 parm_fluent(layers_of_ice).
 init_parm(generate, layers_of_ice, 1).
