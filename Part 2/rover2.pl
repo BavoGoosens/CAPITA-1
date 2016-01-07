@@ -1,5 +1,6 @@
 
 :- include(kplanner).
+%:-filter_useless.
 
 % prim_action(break_sand, [ok]).
 % prim_action(break_ice, [ok]).
@@ -56,7 +57,7 @@ init(mineral,out).      % the axe is out and available
 init(ice_layer, ice).
 init(ice_layer, no_ice).
 init(sand_layer,sand).      % the tree may be up initially
-init(sand_layer,no_sand).    % the tree may be down  initially
+%init(sand_layer,no_sand).    % the tree may be down  initially
 
 parm_fluent(layers_of_ice).
 init_parm(generate, layers_of_ice, 1).

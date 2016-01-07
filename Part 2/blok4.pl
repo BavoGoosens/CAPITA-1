@@ -34,7 +34,7 @@ rejects(look,notEmpty,blocksOnFloor,0,true).
 init(floor,notEmpty).      % the floor may be notEmpty initially
 init(floor,empty).    % the floor may be empty  initially
 init(block,jos).
-init(block,jef).
+%init(block,jef).
 
 parm_fluent(blocksOnFloor).           % blocksOnFloor is the unique parameter
 init_parm(generate,blocksOnFloor,1).  % small bound for generating is 1
