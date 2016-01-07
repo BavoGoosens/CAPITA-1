@@ -10,15 +10,23 @@
 %% In this version, no bound is known on how many chops will be needed
 
 prim_action(break_sand,[ok]).		% hit the tree with the axe
+prim_action(break_ice, [ok]).
 prim_action(look_sand,[no_sand,sand]).	% look_sand if the tree is up or down
+prim_action(look_ice,[no_ice, ice]).
 prim_action(store,[ok]).	% put away the axe
 
-prim_fluent(mineral).               % stored or out
-prim_fluent(sand_layer).	        % up or down
+prim_fluent(mineral).
+prim_fluent(sand_layer).
+prim_fluent(ice_layer).
 prim_fluent(layers_of_sand).	        % unknown bound on the number of chops
+prim_fluent(layers_of_ice).
 
 poss(break_sand,and(mineral=out,sand_layer=sand)).
+poss(break_ice, and(ice_layer=ice, and(mineral=out,sand_layer=no_sand))).
+% eventueel testen of true => no_sand ?
+poss(look_ice, true).
 poss(look_sand,true).
+% miss hier straks meer bij zetten
 poss(store,mineral=out).
 
 % causes(A,R,F,V,W), is used to state that action A changes the value of F.
@@ -30,6 +38,9 @@ causes(store,mineral,stored,true).
 causes(break_sand,layers_of_sand,X,X is layers_of_sand-1).
 causes(break_sand,sand_layer,no_sand,true).
 causes(break_sand,sand_layer,sand,true).
+causes(break_ice, layers_of_ice,X,X is layers_of_ice-1).
+causes(break_ice, ice_layer, no_ice, true).
+causes(break_ice, ice_layer, ice, true).
 
 % looking determines whether the tree is up or down
 settles(look_sand,X,sand_layer,X,true).
@@ -37,12 +48,22 @@ settles(look_sand,X,sand_layer,X,true).
 settles(look_sand,no_sand,layers_of_sand,0,true).
 rejects(look_sand,sand,layers_of_sand,0,true).
 
+settles(look_ice,X,ice_layer,X,true).
+settles(look_ice,no_ice,layers_of_ice,0,true).
+settles(look_ice,ice,layers_of_ice,0,true).
+
 init(mineral,out).      % the axe is out and available
 init(sand_layer,sand).      % the tree may be up initially
 init(sand_layer,no_sand).    % the tree may be down  initially
+init(ice_layer, ice).
+init(ice_layer, no_ice).
 
 parm_fluent(layers_of_sand).           % layers_of_sand is the unique parameter
 init_parm(generate,layers_of_sand,1).  % small bound for generating is 1
 init_parm(test,layers_of_sand,100).    % large bound for testing is 100
 
-top :- kplan(and(sand_layer=no_sand,mineral=stored)).
+parm_fluent(layers_of_ice).
+init_parm(generate, layers_of_ice, 1).
+init_parm(test, layers_of_ice, 100).
+
+top :- kplan(and(ice_layer=no_ice, and(sand_layer=no_sand,mineral=stored))).
