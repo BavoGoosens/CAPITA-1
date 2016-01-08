@@ -1,25 +1,20 @@
-
 :- include(kplanner).
 
-% prim_action(break_sand, [ok]).
-% prim_action(break_ice, [ok]).
-% prim_action(put_away, [ok]).
-
 % 2 planning params: number of layers of sand/ice
-%% The goal is to get the tree down and store the axe.
-%% In this version, no bound is known on how many chops will be needed
+%% The goal is to get the sand and ice layers removed and store the mineral.
+%% No bound is known on the number of layers of sand or the number of layers of ice
 
-prim_action(break_sand,[ok]).		% hit the tree with the axe
-prim_action(break_ice, [ok]).
-prim_action(look_sand,[no_sand,sand]).	% look_sand if the tree is up or down
-prim_action(look_ice,[no_ice, ice]).
-prim_action(store,[ok]).	% put away the axe
+prim_action(break_sand,[ok]).		% break a layer of sand
+prim_action(break_ice, [ok]).   % break a layer of ice
+prim_action(look_sand,[no_sand,sand]).	% look if there is still sand left
+prim_action(look_ice,[no_ice, ice]).    % look if there is still ice left
+prim_action(store,[ok]).	      % store the mineral
 
-prim_fluent(mineral).
-prim_fluent(sand_layer).
-prim_fluent(ice_layer).
-prim_fluent(layers_of_sand).	        % unknown bound on the number of chops
-prim_fluent(layers_of_ice).
+prim_fluent(mineral).           % out or stored
+prim_fluent(sand_layer).        % sand or no_sand
+prim_fluent(ice_layer).         % ice or no_ice
+prim_fluent(layers_of_sand).    % unknown bound on the number of sand layers
+prim_fluent(layers_of_ice).     % unknown bound on the number of ice layers
 
 poss(break_sand,and(mineral=out,sand_layer=sand)).
 poss(break_ice, and(mineral=out, and(sand_layer=no_sand, ice_layer=ice))).
@@ -29,11 +24,7 @@ poss(look_sand,mineral=out).
 % miss hier straks meer bij zetten
 poss(store,and(mineral=out, and(ice_layer=no_ice, sand_layer=no_sand))).
 
-% causes(A,R,F,V,W), is used to state that action A changes the value of F.
-%    Specifically, if A returns result R, then the possible values for F are
-%    any value V for which W is true.
-%          e.g. causes(walk_to(X),_,mylocation,X,true).
-%               causes(apply_heat,_,temperature,X,X is temperature+1).
+
 causes(store,mineral,stored,true).
 causes(break_sand,layers_of_sand,X,X is layers_of_sand-1).
 causes(break_sand,sand_layer,no_sand,true).
