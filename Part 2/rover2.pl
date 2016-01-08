@@ -1,5 +1,4 @@
 :- include(kplanner).
-%:-filter_useless.
 
 % 2 planning params: number of layers of sand/ice
 %% The goal is to get the sand and ice layers removed and store the mineral.

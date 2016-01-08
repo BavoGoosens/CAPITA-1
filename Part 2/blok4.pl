@@ -1,20 +1,25 @@
 %% The goal is to get the floor empty by moving all the blocks to the table
-%% In this version, no bound is known on how many chops will be needed
+%% No bound is known on how many blocks are on the floor
 
 :-include(kplanner).
-:- filter_beyond_goal.
 
 prim_action(pickupBlock,[ok]).		% pick up a block from the floor to the table
 prim_action(ignore, [ok]).        % ignore the current block since it is not clear
 prim_action(look,[empty,notEmpty]).	% look if the floor is notEmpty or empty
-prim_action(checkBlock,[clear,notClear]). % check if a block is clear or not
+prim_action(checkBlock,[clear,notClear]). % check if a block is clear or notClear
 
-prim_fluent(floor).	        % can be empty or still contain block
-prim_fluent(blocksOnFloor).	% unknown bound on the number of blocks on the floor = #ofpickups necesarry to clear floor
-prim_fluent(block).         % clear or notClear
+prim_fluent(floor).	        % can be empty or still contain blocks
+prim_fluent(blocksOnFloor).	% unknown bound on the number of blocks on the floor
+                            % = #ofpickups necesarry to clear floor
+prim_fluent(block).         % current block under conisderation can be clear or notClear
 
+% To pick up a block there need to be block on the floor and the block under consideration
+% needs to be clear
 poss(pickupBlock,and(floor=notEmpty, block=clear)).
+% It is always possible to check the floor
 poss(look,true).
+% The current block under consideration can be ignored if it is notClear and 
+% if there is a notClear block left then the floor should also be
 poss(ignore, and(block=notClear, floor=notEmpty)).
 poss(checkBlock,floor=notEmpty).
 
