@@ -4,7 +4,7 @@
 :-include(kplanner).
 
 prim_action(pickupBlock,[ok]).		% pick up a block from the floor to the table
-prim_action(ignore, [ok]).        % ignore the current block since it is not clear
+prim_action(ignore, [ok]).        % ignore the current block
 prim_action(look,[empty,notEmpty]).	% look if the floor is notEmpty or empty
 prim_action(checkBlock,[clear,notClear]). % check if a block is clear or notClear
 
@@ -32,7 +32,7 @@ causes(pickupBlock,floor,empty,true).
 causes(pickupBlock,floor,notEmpty,true).
 % Ignoring a block does not change the number of blocks on the floor
 causes(ignore, blocksOnFloor, X, X is blocksOnFloor).
-%causes(ignore, block, notClear, true).
+% Ignoring a block might cause the next under consideration to be a clear one
 causes(ignore, block, clear, true).
 
 % looking determines the value of the block
@@ -40,6 +40,7 @@ settles(checkBlock,X,block,X,true).
 
 % if a block is seen to be not clear, blocksOnFloor cannot be 0
 rejects(checkBlock,notClear, blocksOnFloor, 0, true).
+% if a block is seen to be not clear, the floor cannnot be empty
 rejects(checkBlock,notClear, floor, empty, true).
 % looking determines whether the floor is notEmpty or empty
 settles(look,X,floor,X,true).
@@ -47,13 +48,14 @@ settles(look,X,floor,X,true).
 settles(look,empty,blocksOnFloor,0,true).
 rejects(look,notEmpty,blocksOnFloor,0,true).
 
-init(floor,notEmpty).      % the floor may be notEmpty initially
-init(floor,empty).    % the floor may be empty  initially
-init(block,clear).
-init(block,notClear).
+init(floor,notEmpty).  % the floor may be notEmpty initially
+init(floor,empty).     % the floor may be empty  initially
+init(block,clear).     % The block under consideration may be clear initially
+init(block,notClear).  % The block under consideration may be notClear initially
 
 parm_fluent(blocksOnFloor).           % blocksOnFloor is the unique parameter
 init_parm(generate,blocksOnFloor,1).  % small bound for generating is 1
 init_parm(test,blocksOnFloor,100).    % large bound for testing is 100
 
+% The goal is to empty the floor
 top :- kplan(floor=empty).
