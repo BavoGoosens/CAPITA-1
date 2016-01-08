@@ -1,4 +1,4 @@
-%% The goal is to get the floor empty and store the axe.
+%% The goal is to get the floor empty by moving all the blocks to the table
 %% In this version, no bound is known on how many chops will be needed
 
 :-include(kplanner).
@@ -27,6 +27,9 @@ causes(ignore, block, clear, true).
 
 % looking determines the value of the block
 settles(checkBlock,X,block,X,true).
+% if a blcok is seen to be not clear, blocksOnFloor cannot be o
+settles(checkBlock, clear, blocksOnFloor, 0, true). % riskeeeh
+rejects(checkBlock,notClear, blocksOnFloor, 0, true).
 % looking determines whether the floor is notEmpty or empty
 settles(look,X,floor,X,true).
 % if the floor is seen to be notEmpty, blocksOnFloor cannot be 0
