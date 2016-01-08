@@ -18,7 +18,7 @@ prim_fluent(block).         % current block under conisderation can be clear or 
 poss(pickupBlock,and(floor=notEmpty, block=clear)).
 % It is always possible to check the floor
 poss(look,true).
-% The current block under consideration can be ignored if it is notClear and 
+% The current block under consideration can be ignored if it is notClear and
 % if there is a notClear block left then the floor should also be
 poss(ignore, and(block=notClear, floor=notEmpty)).
 poss(checkBlock,floor=notEmpty).
@@ -33,8 +33,8 @@ causes(ignore, block, clear, true).
 % looking determines the value of the block
 settles(checkBlock,X,block,X,true).
 % if a blcok is seen to be not clear, blocksOnFloor cannot be o
-%settles(checkBlock, clear, blocksOnFloor, 0, true). % riskeeeh
-rejects(checkBlock,notClear, blocksOnFloor, 0, true).
+%settles(checkBlock, clear, floor, notEmpty, true). % riskeeeh
+rejects(checkBlock,notClear, floor, empty, true).
 % looking determines whether the floor is notEmpty or empty
 settles(look,X,floor,X,true).
 % if the floor is seen to be notEmpty, blocksOnFloor cannot be 0
