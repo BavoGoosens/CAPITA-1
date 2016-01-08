@@ -22,13 +22,13 @@ causes(pickupBlock,blocksOnFloor,X,X is blocksOnFloor-1).
 causes(pickupBlock,floor,empty,true).
 causes(pickupBlock,floor,notEmpty,true).
 causes(ignore, blocksOnFloor, X, X is blocksOnFloor).
-% causes(ignore, block, notClear, true).
+%causes(ignore, block, notClear, true).
 causes(ignore, block, clear, true).
 
 % looking determines the value of the block
 settles(checkBlock,X,block,X,true).
 % if a blcok is seen to be not clear, blocksOnFloor cannot be o
-settles(checkBlock, clear, blocksOnFloor, 0, true). % riskeeeh
+%settles(checkBlock, clear, blocksOnFloor, 0, true). % riskeeeh
 rejects(checkBlock,notClear, blocksOnFloor, 0, true).
 % looking determines whether the floor is notEmpty or empty
 settles(look,X,floor,X,true).
@@ -38,7 +38,7 @@ rejects(look,notEmpty,blocksOnFloor,0,true).
 
 init(floor,notEmpty).      % the floor may be notEmpty initially
 init(floor,empty).    % the floor may be empty  initially
-init(block,clear).
+%init(block,clear).
 init(block,notClear).
 
 parm_fluent(blocksOnFloor).           % blocksOnFloor is the unique parameter
