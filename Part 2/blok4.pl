@@ -49,7 +49,7 @@ rejects(look,notEmpty,blocksOnFloor,0,true).
 
 init(floor,notEmpty).      % the floor may be notEmpty initially
 init(floor,empty).    % the floor may be empty  initially
-%init(block,clear).
+init(block,clear).
 init(block,notClear).
 
 parm_fluent(blocksOnFloor).           % blocksOnFloor is the unique parameter
