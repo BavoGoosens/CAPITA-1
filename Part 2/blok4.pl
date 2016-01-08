@@ -37,9 +37,10 @@ causes(ignore, block, clear, true).
 
 % looking determines the value of the block
 settles(checkBlock,X,block,X,true).
+
 % if a block is seen to be not clear, blocksOnFloor cannot be 0
-% settles(checkBlock, clear, blocksOnFloor, 0, true). % riskeeeh
 rejects(checkBlock,notClear, blocksOnFloor, 0, true).
+rejects(checkBlock,notClear, floor, empty, true).
 % looking determines whether the floor is notEmpty or empty
 settles(look,X,floor,X,true).
 % if the floor is seen to be notEmpty, blocksOnFloor cannot be 0
